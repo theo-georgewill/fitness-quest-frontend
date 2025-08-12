@@ -16,6 +16,8 @@
     "source.organizeImports": "never",
     "source.fixAll.stylelint": "explicit"
   },
+  "editor.insertSpaces": false,
+  "editor.tabSize": 2,
   // Extension: Git
   "git.rebaseWhenSync": true,
   "git.autofetch": true,
@@ -47,5 +49,6 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "cSpell.words": [
     "iconify"
-  ]
+  ],
+  "compile-hero.disable-compile-files-on-did-save-code": false
 }
