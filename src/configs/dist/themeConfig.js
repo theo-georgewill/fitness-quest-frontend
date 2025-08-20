@@ -1,3 +1,4 @@
+"use strict";
 /*
  * If you change the following items in the config object, you will not see any effect in the local development server
  * as these are stored in the cookie (cookie has the highest priority over the themeConfig):
@@ -9,26 +10,13 @@
  *
  * Another way is to clear the cookie from the browser's Application/Storage tab and then reload the page.
  */
-
-// Type Imports
-import type { Mode } from '@core/types'
-
-export type Config = {
-  templateName: string
-  settingsCookieName: string
-  mode: Mode
-  layoutPadding: number
-  compactContentWidth: number
-  disableRipple: boolean
-}
-
-const themeConfig: Config = {
-  templateName: 'Fitness Quest',
-  settingsCookieName: 'materio-mui-next-free-demo',
-  mode: 'light', // 'light', 'dark'
-  layoutPadding: 24, // Common padding for header, content, footer layout components (in px)
-  compactContentWidth: 1440, // in px
-  disableRipple: false // true, false
-}
-
-export default themeConfig
+exports.__esModule = true;
+var themeConfig = {
+    templateName: 'Fitness Quest',
+    settingsCookieName: 'materio-mui-next-free-demo',
+    mode: 'light',
+    layoutPadding: 24,
+    compactContentWidth: 1440,
+    disableRipple: false // true, false
+};
+exports["default"] = themeConfig;

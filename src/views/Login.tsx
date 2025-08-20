@@ -35,6 +35,9 @@ import { useImageVariant } from '@core/hooks/useImageVariant'
 
 const Login = ({ mode }: { mode: Mode }) => {
   // States
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
   const [isPasswordShown, setIsPasswordShown] = useState(false)
 
   // Vars
@@ -47,9 +50,23 @@ const Login = ({ mode }: { mode: Mode }) => {
 
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    router.push('/')
+    
+    
+    const res = await fetch("http://localhost:4000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      credentials: "include" // send & receive cookies
+    })
+
+    if (res.ok) {
+      router.push("/dashboard") // or "/" depending on your app
+    } else {
+      const error = await res.json()
+      alert(error.message || "Login failed")
+    }
   }
 
   return (
@@ -61,16 +78,24 @@ const Login = ({ mode }: { mode: Mode }) => {
           </Link>
           <div className='flex flex-col gap-5'>
             <div>
-              <Typography variant='h4'>{`Welcome to ${themeConfig.templateName}!👋🏻`}</Typography>
+              <Typography variant='h4'>{`Welcome to ${themeConfig.templateName}! 👋🏻`}</Typography>
               <Typography className='mbs-1'>Please sign-in to your account and start the adventure</Typography>
             </div>
             <form noValidate autoComplete='off' onSubmit={handleSubmit} className='flex flex-col gap-5'>
-              <TextField autoFocus fullWidth label='Email' />
+              <TextField
+                autoFocus
+                fullWidth
+                label='Email'
+                value={email} 
+                onChange={e => setEmail(e.target.value)}  
+              />
               <TextField
                 fullWidth
                 label='Password'
                 id='outlined-adornment-password'
                 type={isPasswordShown ? 'text' : 'password'}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
