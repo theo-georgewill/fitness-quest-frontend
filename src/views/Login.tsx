@@ -62,7 +62,7 @@ const Login = ({ mode }: { mode: Mode }) => {
     })
 
     if (res.ok) {
-      router.push("/dashboard") // or "/" depending on your app
+      router.push("/") // or "/" depending on your app
     } else {
       const error = await res.json()
       alert(error.message || "Login failed")

@@ -88,7 +88,7 @@ var Login = function (_a) {
                 case 1:
                     res = _a.sent();
                     if (!res.ok) return [3 /*break*/, 2];
-                    router.push("/dashboard"); // or "/" depending on your app
+                    router.push("/"); // or "/" depending on your app
                     return [3 /*break*/, 4];
                 case 2: return [4 /*yield*/, res.json()];
                 case 3:
