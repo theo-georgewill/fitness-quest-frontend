@@ -4,6 +4,7 @@ A **Next.js** frontend for the Fitness Quest app. This app connects to a Node.js
 
 ---
 
+
 ## Table of Contents
 
 * [Features](#features)
