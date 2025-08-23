@@ -9,6 +9,7 @@ import '@/app/globals.css'
 
 // Generated Icon CSS Imports
 //import '@assets/iconify-icons/generated-icons.css'
+import { AuthProvider } from "@/components/AuthContext"
 
 export const metadata = {
   title: 'Fitness Quest',
@@ -23,7 +24,7 @@ const RootLayout = ({ children }: ChildrenType) => {
   return (
     <html id='__next' dir={direction}>
       <body className='flex is-full min-bs-full flex-auto flex-col'>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   )
