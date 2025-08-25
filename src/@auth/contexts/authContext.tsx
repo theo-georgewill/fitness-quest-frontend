@@ -1,16 +1,16 @@
-// AuthContext.tsx
+// @auth/contexts/AuthContext.tsx
 "use client"
 
 import { createContext, useContext, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 
-type AuthContextType = {
+export type AuthContextType = {
   user: any
   login: (token: string, user: any) => void
   logout: () => void
 }
 
-const AuthContext = createContext<AuthContextType | null>(null)
+export const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null)
