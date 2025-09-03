@@ -30,42 +30,45 @@ import Illustrations from '@components/Illustrations'
 // Config Imports
 import themeConfig from '@configs/themeConfig'
 
+//Context Imports
+import { useAuth } from '@auth/AuthContext'
+
 // Hook Imports
 import { useImageVariant } from '@core/hooks/useImageVariant'
 
 const Login = ({ mode }: { mode: Mode }) => {
+  const { login } = useAuth(); 
+  const router = useRouter();
+
   // States
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
   const [isPasswordShown, setIsPasswordShown] = useState(false)
 
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   // Vars
   const darkImg = '/images/pages/auth-v1-mask-dark.png'
   const lightImg = '/images/pages/auth-v1-mask-light.png'
 
   // Hooks
-  const router = useRouter()
   const authBackground = useImageVariant(mode, lightImg, darkImg)
 
-  const handleClickShowPassword = () => setIsPasswordShown(show => !show)
+  const handleClickShowPassword = () => setIsPasswordShown(show => !show);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    
-    
-    const res = await fetch("http://localhost:4000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-      credentials: "include" // send & receive cookies
-    })
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-    if (res.ok) {
-      router.push("/") // or "/" depending on your app
-    } else {
-      const error = await res.json()
-      alert(error.message || "Login failed")
+    try {
+      await login(email, password); // global login, sets state + handles cookies
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -86,8 +89,8 @@ const Login = ({ mode }: { mode: Mode }) => {
                 autoFocus
                 fullWidth
                 label='Email'
-                value={email} 
-                onChange={e => setEmail(e.target.value)}  
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
               <TextField
                 fullWidth

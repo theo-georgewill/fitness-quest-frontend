@@ -38,7 +38,7 @@
         "./src/@menu/*"
       ],
       "@auth/*": [
-        "./src/@auth/*"
+        "./src/@auth/contexts/*"
       ],
       "@assets/*": [
         "./src/assets/*"

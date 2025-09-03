@@ -1,43 +1,89 @@
-// @auth/contexts/AuthContext.tsx
 "use client"
 
 import { createContext, useContext, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 
+type User = { 
+  id: string
+  name: string
+  email: string
+}
+
 export type AuthContextType = {
-  user: any
-  login: (token: string, user: any) => void
-  logout: () => void
+  user: User | null
+  isAuthenticated: boolean
+  login: (email: string, password: string) => Promise<void>
+  logout: () => Promise<void>
+  fetchUser: () => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const router = useRouter()
 
+  // Try to load user when app starts (if cookie exists, backend will return user)
   useEffect(() => {
-    // Load user from localStorage if available
-    const storedUser = localStorage.getItem("user")
-    if (storedUser) setUser(JSON.parse(storedUser))
+    fetchUser()
   }, [])
 
-  const login = (token: string, user: any) => {
-    localStorage.setItem("token", token)
-    localStorage.setItem("user", JSON.stringify(user))
-    setUser(user)
-    router.push("/dashboard") // redirect after login
+  const fetchUser = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/api/user/profile", {
+        credentials: "include"
+      })
+      if (res.ok) {
+        const userData = await res.json();
+        setUser(userData);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    } catch (err) {
+      console.error("Error fetching user:", err);
+      setUser(null);
+      setIsAuthenticated(false);
+    }
   }
 
-  const logout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    setUser(null)
-    router.push("/login")
+  const login = async (email: string, password: string) => {
+    try {
+      const res = await fetch("http://localhost:4000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include"
+      });
+      if (!res.ok) throw new Error("Invalid credentials");
+      // After successful login, fetch user from backend
+      await fetchUser();
+      router.push("/dashboard");
+    } catch (err) {
+      console.error("Login error:", err);
+      throw err;
+    }
+  }
+
+  const logout = async () => {
+    try {
+      await fetch("http://localhost:4000/api/auth/logout", {
+        method: "POST",
+        credentials: "include"
+      })
+    } catch (err) {
+      console.error("Logout error:", err);
+    } finally {
+      setUser(null);
+      setIsAuthenticated(false);
+      router.push("/login");
+    }
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout, fetchUser }}>
       {children}
     </AuthContext.Provider>
   )

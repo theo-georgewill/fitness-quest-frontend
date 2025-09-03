@@ -58,44 +58,50 @@ var Logo_1 = require("@components/layout/shared/Logo");
 var Illustrations_1 = require("@components/Illustrations");
 // Config Imports
 var themeConfig_1 = require("@configs/themeConfig");
+//Context Imports
+var AuthContext_1 = require("@auth/AuthContext");
 // Hook Imports
 var useImageVariant_1 = require("@core/hooks/useImageVariant");
 var Login = function (_a) {
     var mode = _a.mode;
+    var login = AuthContext_1.useAuth().login;
+    var router = navigation_1.useRouter();
     // States
     var _b = react_1.useState(""), email = _b[0], setEmail = _b[1];
     var _c = react_1.useState(""), password = _c[0], setPassword = _c[1];
     var _d = react_1.useState(false), isPasswordShown = _d[0], setIsPasswordShown = _d[1];
+    var _e = react_1.useState(null), error = _e[0], setError = _e[1];
+    var _f = react_1.useState(false), loading = _f[0], setLoading = _f[1];
     // Vars
     var darkImg = '/images/pages/auth-v1-mask-dark.png';
     var lightImg = '/images/pages/auth-v1-mask-light.png';
     // Hooks
-    var router = navigation_1.useRouter();
     var authBackground = useImageVariant_1.useImageVariant(mode, lightImg, darkImg);
     var handleClickShowPassword = function () { return setIsPasswordShown(function (show) { return !show; }); };
     var handleSubmit = function (e) { return __awaiter(void 0, void 0, void 0, function () {
-        var res, error;
+        var err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     e.preventDefault();
-                    return [4 /*yield*/, fetch("http://localhost:4000/api/auth/login", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ email: email, password: password }),
-                            credentials: "include" // send & receive cookies
-                        })];
+                    setLoading(true);
+                    setError(null);
+                    _a.label = 1;
                 case 1:
-                    res = _a.sent();
-                    if (!res.ok) return [3 /*break*/, 2];
-                    router.push("/"); // or "/" depending on your app
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, res.json()];
+                    _a.trys.push([1, 3, 4, 5]);
+                    return [4 /*yield*/, login(email, password)];
+                case 2:
+                    _a.sent(); // global login, sets state + handles cookies
+                    router.push("/dashboard");
+                    return [3 /*break*/, 5];
                 case 3:
-                    error = _a.sent();
-                    alert(error.message || "Login failed");
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                    err_1 = _a.sent();
+                    setError(err_1.message);
+                    return [3 /*break*/, 5];
+                case 4:
+                    setLoading(false);
+                    return [7 /*endfinally*/];
+                case 5: return [2 /*return*/];
             }
         });
     }); };

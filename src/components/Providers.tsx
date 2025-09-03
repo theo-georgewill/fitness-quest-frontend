@@ -4,7 +4,7 @@ import type { ChildrenType, Direction } from '@core/types'
 // Context Imports
 import { VerticalNavProvider } from '@menu/contexts/verticalNavContext'
 import { SettingsProvider } from '@core/contexts/settingsContext'
-import { AuthProvider } from '@auth/contexts/authContext'
+import { AuthProvider } from '@/@auth/contexts/AuthContext'
 import ThemeProvider from '@components/theme'
 
 // Component Imports
