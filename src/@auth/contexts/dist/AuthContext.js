@@ -1,4 +1,4 @@
-"use client";
+'use client';
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -56,8 +56,8 @@ exports.AuthProvider = function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 5, , 6]);
-                    return [4 /*yield*/, fetch("http://localhost:4000/api/user/profile", {
-                            credentials: "include"
+                    return [4 /*yield*/, fetch('http://localhost:4000/api/user/profile', {
+                            credentials: 'include'
                         })];
                 case 1:
                     res = _a.sent();
@@ -75,7 +75,7 @@ exports.AuthProvider = function (_a) {
                 case 4: return [3 /*break*/, 6];
                 case 5:
                     err_1 = _a.sent();
-                    console.error("Error fetching user:", err_1);
+                    console.error('Error fetching user:', err_1);
                     setUser(null);
                     setIsAuthenticated(false);
                     return [3 /*break*/, 6];
@@ -89,26 +89,26 @@ exports.AuthProvider = function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch("http://localhost:4000/api/auth/login", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
+                    return [4 /*yield*/, fetch('http://localhost:4000/api/auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ email: email, password: password }),
-                            credentials: "include"
+                            credentials: 'include'
                         })];
                 case 1:
                     res = _a.sent();
                     if (!res.ok)
-                        throw new Error("Invalid credentials");
+                        throw new Error('Invalid credentials');
                     // After successful login, fetch user from backend
                     return [4 /*yield*/, fetchUser()];
                 case 2:
                     // After successful login, fetch user from backend
                     _a.sent();
-                    router.push("/dashboard");
+                    router.push('/');
                     return [3 /*break*/, 4];
                 case 3:
                     err_2 = _a.sent();
-                    console.error("Login error:", err_2);
+                    console.error('Login error:', err_2);
                     throw err_2;
                 case 4: return [2 /*return*/];
             }
@@ -120,21 +120,21 @@ exports.AuthProvider = function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, 3, 4]);
-                    return [4 /*yield*/, fetch("http://localhost:4000/api/auth/logout", {
-                            method: "POST",
-                            credentials: "include"
+                    return [4 /*yield*/, fetch('http://localhost:4000/api/auth/logout', {
+                            method: 'POST',
+                            credentials: 'include'
                         })];
                 case 1:
                     _a.sent();
                     return [3 /*break*/, 4];
                 case 2:
                     err_3 = _a.sent();
-                    console.error("Logout error:", err_3);
+                    console.error('Logout error:', err_3);
                     return [3 /*break*/, 4];
                 case 3:
                     setUser(null);
                     setIsAuthenticated(false);
-                    router.push("/login");
+                    router.push('/login');
                     return [7 /*endfinally*/];
                 case 4: return [2 /*return*/];
             }
@@ -145,6 +145,6 @@ exports.AuthProvider = function (_a) {
 exports.useAuth = function () {
     var context = react_1.useContext(exports.AuthContext);
     if (!context)
-        throw new Error("useAuth must be used inside AuthProvider");
+        throw new Error('useAuth must be used inside AuthProvider');
     return context;
 };

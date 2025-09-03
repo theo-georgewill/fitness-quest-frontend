@@ -21,6 +21,9 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 
+// Auth Context
+import { useAuth } from '@auth/AuthContext'
+
 // Styled component for badge content
 const BadgeContentSpan = styled('span')({
   width: 8,
@@ -57,6 +60,13 @@ const UserDropdown = () => {
     setOpen(false)
   }
 
+  const { user, logout } = useAuth();
+  const handleLogout = async () => {
+    await logout()
+    setOpen(false)
+  }
+
+
   return (
     <>
       <Badge
@@ -68,7 +78,7 @@ const UserDropdown = () => {
       >
         <Avatar
           ref={anchorRef}
-          alt='John Doe'
+          alt={user?.name}
           src='/images/avatars/1.png'
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
@@ -125,7 +135,7 @@ const UserDropdown = () => {
                       color='error'
                       size='small'
                       endIcon={<i className='ri-logout-box-r-line' />}
-                      onClick={e => handleDropdownClose(e, '/login')}
+                      onClick={handleLogout}
                       sx={{ '& .MuiButton-endIcon': { marginInlineStart: 1.5 } }}
                     >
                       Logout
