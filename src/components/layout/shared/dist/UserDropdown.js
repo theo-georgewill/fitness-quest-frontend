@@ -121,7 +121,7 @@ var UserDropdown = function () {
                             React.createElement("div", { className: 'flex items-center plb-2 pli-4 gap-2', tabIndex: -1 },
                                 React.createElement(Avatar_1["default"], { alt: 'John Doe', src: '/images/avatars/1.png' }),
                                 React.createElement("div", { className: 'flex items-start flex-col' },
-                                    React.createElement(Typography_1["default"], { className: 'font-medium', color: 'text.primary' }, "John Doe"),
+                                    React.createElement(Typography_1["default"], { className: 'font-medium', color: 'text.primary' }, user === null || user === void 0 ? void 0 : user.name),
                                     React.createElement(Typography_1["default"], { variant: 'caption' }, "Admin"))),
                             React.createElement(Divider_1["default"], { className: 'mlb-1' }),
                             React.createElement(MenuItem_1["default"], { className: 'gap-3', onClick: function (e) { return handleDropdownClose(e); } },
